@@ -1,0 +1,62 @@
+# This is to check the existence of a compartment in a given tenancy.
+# Prereq: You need to setup your VM/ Workstation as per: https://github.com/oracle/oci-python-sdk
+# Please go ahead and update the config file as per the doc.
+#$ cat ~/.oci/config
+#[DEFAULT]
+#user=ocid1.user.oc1..aaaaaaaawnxqunzbznobxubbt3uujw3fxxxxxxxx
+#fingerprint=3e:ac:ab:da:22:ab:b7:99:6x:xx:xx
+#key_file=/.oci/oci_api_key.pem
+#tenancy=ocid1.tenancy.oc1..aaaaaaaaouminldguaddw4th2rysvt2wezzx2nscxxxxxx
+#region=ap-mumbai-1
+
+
+import sys, oci, json
+
+def compartmentAnalyze():
+    config = oci.config.from_file("/Users/monroy/.oci/config", "DEFAULT")
+    identity = oci.identity.IdentityClient(config)
+    user_ocid = identity.get_user(config["user"]).data.id
+    compartments = identity.list_compartments(config["tenancy"]).data
+    name_compartment = input("ENTER THE COMPARTMENT NAME:")
+    list_val = []
+    for j in compartments:
+        list_val.append(j.name)
+
+    # print(list_val)
+    if name_compartment not in list_val:
+        print("ENTERED COMPARTMENT NOT FOUND")
+
+    for each in compartments:
+        if name_compartment == each.name:
+            print(name_compartment + " EXISTS")
+            print(each)
+
+def main():
+    if sys.version_info[0] < 3:
+        raise Exception("I'm sorry, you're Python version must be >= 3.6")
+
+    else:
+       compartmentAnalyze()
+
+
+        #print(json.dumps(compartments))
+        #print(compartment_ocids)
+if __name__ == '__main__':
+    main()
+    
+    
+# --- OUTPUT ---
+#ENTER THE COMPARTMENT NAME:test
+#monroy EXISTS
+#{
+#  "compartment_id": "ocid1.tenancy.oc1..aaaaaaaaouminldguaddw4th2rysvt2wezzx2xxxxxx",
+#  "defined_tags": {},
+#  "description": "Testing for customers",
+#  "freeform_tags": {},
+#  "id": "ocid1.compartment.oc1..aaaaaaaagctfina6fj36f7tgr5gaf6zo5c2r5ijz4aakxxxxxxx",
+#  "inactive_status": null,
+#  "is_accessible": null,
+#  "lifecycle_state": "ACTIVE",
+#  "name": "test",
+#  "time_created": "2019-03-04T16:00:44.346000+00:00"
+#}
