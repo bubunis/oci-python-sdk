@@ -2,12 +2,8 @@
 # Prereq: You need to setup your VM/ Workstation as per: https://github.com/oracle/oci-python-sdk
 # Please go ahead and update the config file as per the doc.
 #$ cat ~/.oci/config
-#[DEFAULT]
-#user=ocid1.user.oc1..aaaaaaaawnxqunzbznobxubbt3uujw3fxxxxxxxx
-#fingerprint=3e:ac:ab:da:22:ab:b7:99:6x:xx:xx
-#key_file=/.oci/oci_api_key.pem
-#tenancy=ocid1.tenancy.oc1..aaaaaaaaouminldguaddw4th2rysvt2wezzx2nscxxxxxx
-#region=ap-mumbai-1
+
+
 
 
 import sys, oci, json
